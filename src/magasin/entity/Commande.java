@@ -6,9 +6,9 @@
 package magasin.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,8 +16,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -39,6 +40,26 @@ public class Commande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private Integer prixTotal;
+
+    //relation many to many ,commande-produit
+    //creation d'une nouvelle table intermediaire
+    @ManyToMany
+    @JoinTable(name="commande_produit")//table de jointure
+    private List<Produit> produits= new ArrayList<>();
+    
+    
+    
+    public Integer getPrixTotal() {
+        return prixTotal;
+    }
+
+    public void setPrixTotal(Integer prixTotal) {
+        this.prixTotal = prixTotal;
+    }
+    
+    
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEtHeureCommande;
